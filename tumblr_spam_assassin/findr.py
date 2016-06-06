@@ -2,11 +2,19 @@ from .tumblr import Tumblr
 
 EXAMPLE_SPAMMER = "makarinab88"
 EXAMPLE_TAG = "hamilton"
+INITIAL_LINK_URLS = [u'isotopeka.club',
+                     u'isocration.club',
+                     u'gautell.website',
+                     u'gnatell.website',
+                     u'aostell.website',
+                     u'islavic.club',
+                     u'islatities.club',
+                     u'bostell.website']
 
 class Findr:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.link_urls = []
+        self.link_urls = INITIAL_LINK_URLS
         self.popular_tags = []
         self.spam_blogs = [EXAMPLE_SPAMMER]
         self.tumblr = Tumblr(self.api_key)
@@ -20,7 +28,6 @@ class Findr:
             self.find_spam_blogs_in_tag(tag)
 
     def find_spam_blogs_in_tag(self, popular_tag):
-        self.get_common_link_urls()
         print "Let's find some spam blogs in %s" % popular_tag
         results = self.tumblr.tagged(popular_tag)
         for blog in results:
