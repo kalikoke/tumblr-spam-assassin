@@ -20,12 +20,15 @@ class Findr:
         self.tumblr = Tumblr(self.api_key)
 
     def find_targets(self):
-        print "Initial seed"
-        self.find_spam_blogs_in_tag(EXAMPLE_TAG)
-        print "Will attempt to get targets"
-        self.get_popular_tags()
+        if not self.popular_tags:
+            print "Initial seed"
+            self.find_spam_blogs_in_tag(EXAMPLE_TAG)
+            print "Will attempt to get targets"
+            self.get_popular_tags()
+
         for tag in self.popular_tags:
             self.find_spam_blogs_in_tag(tag)
+            self.popular_tags.remove(tag)
 
     def find_spam_blogs_in_tag(self, popular_tag):
         print "Let's find some spam blogs in %s" % popular_tag
