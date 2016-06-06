@@ -9,8 +9,8 @@ class Findr:
         self.spam_blogs = []
         self.tumblr = Tumblr(self.api_key)
 
-    def find_spam_blogs(self, popular_tag):
-        self.get_common_link_urls()
+    def find_spam_blogs(self, popular_tag, spammer_username=EXAMPLE_SPAMMER):
+        self.get_common_link_urls(spammer_username)
         results = self.tumblr.tagged(popular_tag)
         for blog in results:
             if "link_url" in blog.keys():
