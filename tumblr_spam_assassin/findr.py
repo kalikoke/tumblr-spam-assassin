@@ -40,8 +40,9 @@ class Findr:
             print ".",
             if "link_url" in blog.keys():
                 if self.link_baseurl(blog["link_url"]) in self.link_urls:
-                    self.outputfile.write("%s\n" % blog["blog_name"])
-                    self.spam_blogs.append(blog["blog_name"])
+                    if blog["blog_name"] not in self.spam_blogs:
+                        self.outputfile.write("%s\n" % blog["blog_name"])
+                        self.spam_blogs.append(blog["blog_name"])
 
         self.trim_spam_blogs()
         print "Found: %d spammers!" % (len(self.spam_blogs))
