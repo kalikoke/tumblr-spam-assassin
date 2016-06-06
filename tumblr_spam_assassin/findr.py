@@ -3,22 +3,21 @@ from .tumblr import Tumblr
 EXAMPLE_SPAMMER = "makarinab88"
 
 class Findr:
-    def __init__(self, api_key, popular_tag):
+    def __init__(self, api_key):
         self.api_key = api_key
-        self.popular_tag = popular_tag
         self.link_urls = []
         self.spam_blogs = []
         self.tumblr = Tumblr(self.api_key)
 
-    def find_spam_blogs(self):
+    def find_spam_blogs(self, popular_tag):
         self.get_common_link_urls()
-        results = self.tumblr.tagged(self.popular_tag)
+        results = self.tumblr.tagged(popular_tag)
         for blog in results:
             if "link_url" in blog.keys():
                 if self.link_baseurl(blog["link_url"]) in self.link_urls:
                     self.spam_blogs.append(blog["blog_name"])
 
-        return self.spam_blogs
+        return list(set(self.spam_blogs))
 
     def get_common_link_urls(self, spammer_username=EXAMPLE_SPAMMER):
         for post_data in self.tumblr.posts(spammer_username):
