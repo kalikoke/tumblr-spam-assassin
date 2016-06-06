@@ -12,8 +12,9 @@ INITIAL_LINK_URLS = [u'isotopeka.club',
                      u'bostell.website']
 
 class Findr:
-    def __init__(self, api_key):
+    def __init__(self, api_key, outputfile):
         self.api_key = api_key
+        self.outputfile = open(outputfile, "a")
         self.link_urls = INITIAL_LINK_URLS
         self.popular_tags = []
         self.spam_blogs = [EXAMPLE_SPAMMER]
@@ -30,6 +31,8 @@ class Findr:
             self.find_spam_blogs_in_tag(tag)
             self.popular_tags.remove(tag)
 
+        self.outputfile.close()
+
     def find_spam_blogs_in_tag(self, popular_tag):
         print "Let's find some spam blogs in %s" % popular_tag
         results = self.tumblr.tagged(popular_tag)
@@ -37,6 +40,7 @@ class Findr:
             print ".",
             if "link_url" in blog.keys():
                 if self.link_baseurl(blog["link_url"]) in self.link_urls:
+                    self.outputfile.write("%s\n" % blog["blog_name"])
                     self.spam_blogs.append(blog["blog_name"])
 
         self.trim_spam_blogs()
