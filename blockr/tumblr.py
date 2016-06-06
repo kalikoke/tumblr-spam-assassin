@@ -1,23 +1,25 @@
 import requests, json
 
 API_BASEURL = "https://api.tumblr.com/v2"
+API_ENDPOINTS = {
+    "blog": "/blog/%s/%s?api_key=%s",
+    "tagged": "/tagged?tag=%s"
+}
+
 
 class Tumblr:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.api_endpoints = {
-            "blog": "/blog/%s/%s?api_key=%s",
-            "tagged": "/tagged?tag=%s"
-        }
 
     def posts(self, blog_identifier):
-        return self.get_request(blog_identifier, "blog", "posts")["response"]["posts"]
+        url = self.api_url("blog") % (blog_identifier,
+                                      "posts",
+                                      self.api_key)
+        return self.get_request(url)["response"]["posts"]
 
-    def get_request(self, blog_identifier, endpoint, option):
-        r = requests.get(self.api_url(blog_identifier, endpoint, option))
+    def get_request(self, url):
+        r = requests.get(url)
         return r.json()
 
-    def api_url(self, blog_identifier, endpoint, option):
-        return API_BASEURL + self.api_endpoints[endpoint] % (blog_identifier,
-                                                             option,
-                                                             self.api_key)
+    def api_url(self, endpoint):
+        return API_BASEURL + API_ENDPOINTS[endpoint]
