@@ -18,6 +18,6 @@ findr.find_spam_blogs("jessica jones")
 # Or just run the script with docker:
 
 ```shell
-docker run --rm -v "$PWD":/usr/src/app -it blockr/dev python assassin.py YOURAPIKEY > spammers.output
+docker run --rm -v "$PWD":/usr/src/app -it blockr/dev python assassin.py -a YOURAPIKEY -o spammers.output
 ```
 
