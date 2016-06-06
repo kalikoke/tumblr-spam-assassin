@@ -6,14 +6,13 @@ API_ENDPOINTS = {
     "tagged": "/tagged?tag=%s&api_key=%s"
 }
 
-
 class Tumblr:
     def __init__(self, api_key):
         self.api_key = api_key
 
     def tagged(self, tag):
         url = self.api_url("tagged") % (tag, self.api_key)
-        return self.get_request(url)
+        return self.get_request(url)["response"]
 
     def posts(self, blog_identifier):
         url = self.api_url("blog") % (blog_identifier,
